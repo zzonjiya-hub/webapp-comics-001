@@ -6,8 +6,8 @@
   <title>KSMS 6컷 만화 디자이너</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Fonts (East Sea Dokdo & Noto Sans KR) -->
-  <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Sans+KR:wght=300;400;700;900&display=swap" rel="stylesheet">
+  <!-- Fonts (East Sea Dokdo, Noto Sans KR, Nanum Pen Script, Black Han Sans) -->
+  <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Sans+KR:wght@300;400;700;900&family=Nanum+Pen+Script&family=Black+Han+Sans&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -149,7 +149,7 @@
             <canvas id="mini-canvas-1" class="w-full aspect-[4/3] bg-zinc-900 rounded border border-zinc-800"></canvas>
           </div>
 
-          <div id="mini-card-2" onclick="switchActiveCut(2)" class="bg-zinc-950 p-2.5 rounded border border-zinc-850 cursor-pointer transition-all hover:scale-[1.02]">
+          <div id="mini-card-2" onclick="switchActiveCut(2)" class="bg-zinc-950 p-2.5 rounded border-2 border-transparent cursor-pointer transition-all hover:scale-[1.02]">
             <div class="flex justify-between items-center mb-1.5">
               <span class="text-[11px] font-bold text-zinc-400" id="mini-label-2">3컷</span>
               <span class="text-[9px] text-zinc-600 uppercase">Cut 3</span>
@@ -157,7 +157,7 @@
             <canvas id="mini-canvas-2" class="w-full aspect-[4/3] bg-zinc-900 rounded border border-zinc-800"></canvas>
           </div>
 
-          <div id="mini-card-3" onclick="switchActiveCut(3)" class="bg-zinc-950 p-2.5 rounded border border-zinc-850 cursor-pointer transition-all hover:scale-[1.02]">
+          <div id="mini-card-3" onclick="switchActiveCut(3)" class="bg-zinc-950 p-2.5 rounded border-2 border-transparent cursor-pointer transition-all hover:scale-[1.02]">
             <div class="flex justify-between items-center mb-1.5">
               <span class="text-[11px] font-bold text-zinc-400" id="mini-label-3">4컷</span>
               <span class="text-[9px] text-zinc-600 uppercase">Cut 4</span>
@@ -165,7 +165,7 @@
             <canvas id="mini-canvas-3" class="w-full aspect-[4/3] bg-zinc-900 rounded border border-zinc-800"></canvas>
           </div>
 
-          <div id="mini-card-4" onclick="switchActiveCut(4)" class="bg-zinc-950 p-2.5 rounded border border-zinc-850 cursor-pointer transition-all hover:scale-[1.02]">
+          <div id="mini-card-4" onclick="switchActiveCut(4)" class="bg-zinc-950 p-2.5 rounded border-2 border-transparent cursor-pointer transition-all hover:scale-[1.02]">
             <div class="flex justify-between items-center mb-1.5">
               <span class="text-[11px] font-bold text-zinc-400" id="mini-label-4">5컷</span>
               <span class="text-[9px] text-zinc-600 uppercase">Cut 5</span>
@@ -173,7 +173,7 @@
             <canvas id="mini-canvas-4" class="w-full aspect-[4/3] bg-zinc-900 rounded border border-zinc-800"></canvas>
           </div>
 
-          <div id="mini-card-5" onclick="switchActiveCut(5)" class="bg-zinc-950 p-2.5 rounded border border-zinc-850 cursor-pointer transition-all hover:scale-[1.02]">
+          <div id="mini-card-5" onclick="switchActiveCut(5)" class="bg-zinc-950 p-2.5 rounded border-2 border-transparent cursor-pointer transition-all hover:scale-[1.02]">
             <div class="flex justify-between items-center mb-1.5">
               <span class="text-[11px] font-bold text-zinc-400" id="mini-label-5">6컷</span>
               <span class="text-[9px] text-zinc-600 uppercase">Cut 6</span>
@@ -190,11 +190,13 @@
       
       <!-- Top Actions / Exports -->
       <div class="p-4 border-b border-zinc-800 flex flex-col gap-2 bg-zinc-950/80 sticky top-0 z-10 backdrop-blur-md">
+        <!-- 수정 요청 사항: '완성된 A4 6컷 만화 저장' -> '완성된 만화 이미지 저장' -->
         <button onclick="renderA4Page('download')" id="btn-download" class="w-full py-2.5 px-3 bg-red-700 hover:bg-red-600 text-white text-xs font-bold rounded shadow-lg transition-all flex items-center justify-center gap-2">
-          💾 완성된 A4 6컷 만화 저장
+          💾 완성된 만화 이미지 저장
         </button>
+        <!-- (인쇄 및 복사) 문구가 제거된 버튼 -->
         <button onclick="renderA4Page('view')" id="btn-view" class="w-full py-2 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-xs font-semibold rounded transition-all flex items-center justify-center gap-2">
-          👁️ 새 창으로 만화 보기 (인쇄 및 복사)
+          👁️ 새 창으로 만화 보기
         </button>
       </div>
 
@@ -322,16 +324,16 @@
       <div id="tab-sticker" class="p-5 flex-1 flex flex-col gap-4 hidden">
         
         <!-- Creator -->
-        <div class="bg-zinc-900/50 p-4 rounded border border-zinc-850">
+        <div id="bubble-creator-container" class="bg-zinc-900/50 p-4 rounded border border-zinc-850 transition-all">
           <div class="flex justify-between items-center mb-2">
             <h4 class="text-xs font-bold uppercase tracking-wider text-red-500" id="sticker-title-label">현재 [1컷] 대사/말풍선</h4>
-            <span class="text-[9px] text-zinc-500">컷별 독립 적용</span>
+            <span id="edit-mode-badge" class="text-[10px] text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded font-semibold">신규 추가</span>
           </div>
           <div class="flex flex-col gap-2.5">
-            <textarea id="custom-sticker-text" oninput="checkTextArea()" placeholder="크으으으윽... 이 소리는 뭐지?" rows="2" class="w-full bg-zinc-950 border border-zinc-850 rounded p-2 text-xs text-white placeholder-zinc-700 focus:outline-none focus:border-red-600 resize-none"></textarea>
+            <textarea id="custom-sticker-text" oninput="handleStickerTextInput()" placeholder="크으으으윽... 이 소리는 뭐지?" rows="2" class="w-full bg-zinc-950 border border-zinc-850 rounded p-2 text-xs text-white placeholder-zinc-700 focus:outline-none focus:border-red-600 resize-none transition-colors"></textarea>
             
             <!-- Swapped Buttons Position -->
-            <div class="flex gap-2">
+            <div id="action-buttons-container" class="flex gap-2">
               <button id="btn-add-bubble" onclick="addSpeechBubbleSticker()" disabled class="flex-1 py-1.5 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed text-xs text-zinc-300 font-bold border border-zinc-700 rounded transition-all">
                 💬 말풍선 추가
               </button>
@@ -339,6 +341,11 @@
                 ✍️ 일반 대사 추가
               </button>
             </div>
+            
+            <!-- Edit completion banner -->
+            <button id="btn-edit-done" onclick="finishStickerEditing()" class="hidden w-full py-1.5 bg-green-800 hover:bg-green-750 text-white text-xs font-bold rounded transition-all">
+              ✅ 수정 완료 (저장)
+            </button>
           </div>
         </div>
 
@@ -360,6 +367,22 @@
               </button>
               <button id="bubble-type-dots" onclick="updateSelectedStickerProperty('tailType', 'dots')" class="py-1 px-2 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all">
                 ⚪ 동그란 점형 (상상)
+              </button>
+            </div>
+          </div>
+
+          <!-- Font Style Selector -->
+          <div id="text-font-control-group" class="hidden">
+            <span class="text-[11px] text-zinc-400 block mb-1.5">대사 폰트 스타일</span>
+            <div class="grid grid-cols-3 gap-1">
+              <button id="font-type-spooky" onclick="updateSelectedStickerProperty('fontFamily', 'East Sea Dokdo')" class="py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all">
+                기괴 붓체
+              </button>
+              <button id="font-type-comic" onclick="updateSelectedStickerProperty('fontFamily', 'Nanum Pen Script')" class="py-1 px-1.5 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all">
+                만화 펜체
+              </button>
+              <button id="font-type-impact" onclick="updateSelectedStickerProperty('fontFamily', 'Black Han Sans')" class="py-1 px-1.5 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all">
+                격돌 굵은체
               </button>
             </div>
           </div>
@@ -396,7 +419,8 @@
           <p>👉 **도움말**: </p>
           <ul class="list-disc pl-4 space-y-0.5 text-zinc-500">
             <li>만화 대사나 말풍선을 캔버스 안에서 자유롭게 클릭·드래그해 위치를 조율하세요.</li>
-            <li>대사를 더블 클릭하면 즉시 삭제할 수 있습니다.</li>
+            <li>대사를 <b>더블 클릭(더블 탭)</b>하면 우측 패널에서 내용을 바로 <b>편집</b>할 수 있습니다.</li>
+            <li>더블 클릭으로 대사가 수정 모드로 진입하면 입력창에 수정을 가하고 수정을 완료하세요.</li>
             <li>각 컷(1컷~6컷)을 상단 탭이나 스토리보드 내비게이터로 클릭해 활성화하면 각 컷마다 별도의 대사가 개별 유지됩니다.</li>
           </ul>
         </div>
@@ -418,7 +442,7 @@
         
         <h4 class="font-bold text-white text-sm">📐 4:3 자동 정합 및 레이아웃</h4>
         <ul class="list-disc pl-4 space-y-1 text-zinc-400">
-          <li>어떤 비율의 이미지 파일을 올려도 왜곡되지 않고 만화 표준 <b>4:3 비율</b>로 중심 기준에 맞춰 자동 가공됩니다.</li>
+          <li>어떤 비율 of 이미지 파일을 올려도 왜곡되지 않고 만화 표준 <b>4:3 비율</b>로 중심 기준에 맞춰 자동 가공됩니다.</li>
         </ul>
 
         <h4 class="font-bold text-white text-sm">🎈 말풍선 꼬리 변경 기능</h4>
@@ -447,6 +471,7 @@
 
     let activeIndex = 0; // Currently editing cut (0 to 5)
     let selectedSticker = null; // Reference to selected sticker in the active cut
+    let isEditingMode = false; // Is selectedSticker currently in text-editing mode?
     let isDragging = false;
     let startDragX = 0;
     let startDragY = 0;
@@ -489,8 +514,15 @@
       canvas.width = 640;
       canvas.height = 480;
 
-      // Render Empty state initially
-      applyAllEffects();
+      // [CRITICAL FIX] Ensure Fonts are fully downloaded and active before initial canvas rendering
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          applyAllEffects();
+        });
+      } else {
+        // Fallback for older legacy browsers
+        setTimeout(applyAllEffects, 1000);
+      }
       
       // Initialize Button Active Check
       checkTextArea();
@@ -522,6 +554,19 @@
       const hasText = val.length > 0; // At least one character (spaces included)
       const hasNonSpaceText = val.trim().length > 0; // True if there's non-whitespace content
 
+      if (isEditingMode) {
+        // If in Edit Mode, we are updating the current selected sticker's text live
+        if (selectedSticker) {
+          // If speech bubble, allow blanks. If plain text, block saving blanks
+          if (selectedSticker.type === 'speech-bubble' || hasNonSpaceText) {
+            selectedSticker.text = val;
+            applyAllEffects();
+          }
+        }
+        return;
+      }
+
+      // Standard New creation validation state
       // Plain Text (일반 대사) - Requires non-space characters
       if (hasNonSpaceText) {
         btnText.removeAttribute('disabled');
@@ -537,9 +582,68 @@
       }
     }
 
+    // Handle typing inside text area
+    function handleStickerTextInput() {
+      checkTextArea();
+    }
+
+    // Enter edit mode for a sticker
+    function enterStickerEditMode(sticker) {
+      isEditingMode = true;
+      selectedSticker = sticker;
+      
+      const textInput = document.getElementById('custom-sticker-text');
+      const container = document.getElementById('bubble-creator-container');
+      const badge = document.getElementById('edit-mode-badge');
+      const buttons = document.getElementById('action-buttons-container');
+      const doneBtn = document.getElementById('btn-edit-done');
+
+      // Sync data to text area
+      textInput.value = sticker.text;
+      
+      // Update Creator sidebar UI to highlight Editing state
+      container.classList.remove('border-zinc-850');
+      container.classList.add('border-green-600', 'bg-zinc-900/80');
+      badge.innerText = "수정 중";
+      badge.className = "text-[10px] text-green-400 bg-green-950 px-2 py-0.5 rounded font-bold animate-pulse";
+      
+      buttons.classList.add('hidden');
+      doneBtn.classList.remove('hidden');
+
+      switchTab('sticker');
+      applyAllEffects();
+    }
+
+    // Finish sticker editing and return to creation mode
+    function finishStickerEditing() {
+      isEditingMode = false;
+      
+      const textInput = document.getElementById('custom-sticker-text');
+      const container = document.getElementById('bubble-creator-container');
+      const badge = document.getElementById('edit-mode-badge');
+      const buttons = document.getElementById('action-buttons-container');
+      const doneBtn = document.getElementById('btn-edit-done');
+
+      // Reset UI to standard creation mode
+      textInput.value = '';
+      container.classList.remove('border-green-600', 'bg-zinc-900/80');
+      container.classList.add('border-zinc-850');
+      badge.innerText = "신규 추가";
+      badge.className = "text-[10px] text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded font-semibold";
+      
+      buttons.classList.remove('hidden');
+      doneBtn.classList.add('hidden');
+
+      checkTextArea();
+      applyAllEffects();
+    }
+
     // Switch active editing Cut (0 - 5)
     function switchActiveCut(idx) {
-      // Clean selected sticker on cut change
+      // Clean selected sticker and exit edit mode on cut change
+      if (isEditingMode) {
+        finishStickerEditing();
+      }
       selectedSticker = null;
       activeIndex = idx;
 
@@ -572,7 +676,9 @@
       const file = e.target.files[0];
       if (!file) return;
 
-      const reader = new FileReader();
+      const reader = e.target.files[0] ? new FileReader() : null;
+      if (!reader) return;
+      
       reader.onload = function(event) {
         const img = new Image();
         img.onload = function() {
@@ -593,6 +699,9 @@
 
     // Reset stickers in current cut
     function clearActiveCutStickers() {
+      if (isEditingMode) {
+        finishStickerEditing();
+      }
       cuts[activeIndex].stickers = [];
       selectedSticker = null;
       applyAllEffects();
@@ -948,9 +1057,10 @@
         ctx.rotate(st.rotation || 0);
 
         if (st.type === 'text') {
-          // Render horror-styled text
+          // Render horror-styled text with customizable font families
           const fontSize = Math.max(10, Math.round(absSize * 0.48));
-          ctx.font = `bold ${fontSize}px 'East Sea Dokdo'`;
+          const fontFamily = st.fontFamily || 'East Sea Dokdo';
+          ctx.font = `bold ${fontSize}px '${fontFamily}'`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
 
@@ -1043,8 +1153,9 @@
         // Selected bounding indicator (Workspace Editor ONLY)
         if (st === selectedSticker && isFocusWorkspace) {
           ctx.save();
-          ctx.strokeStyle = 'rgba(239, 68, 68, 0.9)';
-          ctx.lineWidth = 2;
+          // Edit mode is highlighted with green dashed border, normal selected is red
+          ctx.strokeStyle = isEditingMode ? 'rgba(34, 197, 94, 0.9)' : 'rgba(239, 68, 68, 0.9)';
+          ctx.lineWidth = 2.5;
           ctx.setLineDash([5, 4]);
 
           if (st.type === 'speech-bubble') {
@@ -1075,7 +1186,8 @@
         relX: 0.5,
         relY: 0.3,
         relSize: 100 / canvas.width,
-        rotation: (Math.random() - 0.5) * 0.15
+        rotation: (Math.random() - 0.5) * 0.15,
+        fontFamily: 'East Sea Dokdo' // default font family style
       };
 
       cuts[activeIndex].stickers.push(newSt);
@@ -1135,6 +1247,22 @@
           btnSharp.className = "py-1 px-2 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all";
           btnDots.className = "py-1 px-2 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
         }
+      } else if (prop === 'fontFamily') {
+        selectedSticker.fontFamily = value;
+        // Sync font buttons state
+        const fontSpooky = document.getElementById('font-type-spooky');
+        const fontComic = document.getElementById('font-type-comic');
+        const fontImpact = document.getElementById('font-type-impact');
+        [fontSpooky, fontComic, fontImpact].forEach(btn => {
+          btn.className = "py-1 px-1.5 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all";
+        });
+        if (value === 'East Sea Dokdo') {
+          fontSpooky.className = "py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
+        } else if (value === 'Nanum Pen Script') {
+          fontComic.className = "py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
+        } else if (value === 'Black Han Sans') {
+          fontImpact.className = "py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
+        }
       }
 
       applyAllEffects();
@@ -1145,6 +1273,7 @@
       const panel = document.getElementById('selected-sticker-controls');
       const tailGroup = document.getElementById('bubble-tail-control-group');
       const typeGroup = document.getElementById('bubble-style-control-group');
+      const fontGroup = document.getElementById('text-font-control-group');
 
       if (!selectedSticker) {
         panel.classList.add('hidden');
@@ -1164,6 +1293,7 @@
       if (selectedSticker.type === 'speech-bubble') {
         tailGroup.classList.remove('hidden');
         typeGroup.classList.remove('hidden');
+        fontGroup.classList.add('hidden');
         
         const currentTail = selectedSticker.tailAngle !== undefined ? selectedSticker.tailAngle : 225;
         document.getElementById('input-selected-tail').value = currentTail;
@@ -1180,14 +1310,41 @@
           btnSharp.className = "py-1 px-2 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all";
           btnDots.className = "py-1 px-2 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
         }
+      } else if (selectedSticker.type === 'text') {
+        tailGroup.classList.add('hidden');
+        typeGroup.classList.add('hidden');
+        fontGroup.classList.remove('hidden');
+
+        // Sync font button active style highlights
+        const currentFont = selectedSticker.fontFamily || 'East Sea Dokdo';
+        const fontSpooky = document.getElementById('font-type-spooky');
+        const fontComic = document.getElementById('font-type-comic');
+        const fontImpact = document.getElementById('font-type-impact');
+        [fontSpooky, fontComic, fontImpact].forEach(btn => {
+          btn.className = "py-1 px-1.5 text-[10px] rounded bg-zinc-950 border border-zinc-850 text-zinc-400 text-center hover:text-white transition-all";
+        });
+        if (currentFont === 'East Sea Dokdo') {
+          fontSpooky.className = "py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
+        } else if (currentFont === 'Nanum Pen Script') {
+          fontComic.className = "py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
+        } else if (currentFont === 'Black Han Sans') {
+          fontImpact.className = "py-1 px-1.5 text-[10px] rounded bg-red-950/60 border border-red-800 text-red-400 font-bold text-center transition-all";
+        }
       } else {
         tailGroup.classList.add('hidden');
         typeGroup.classList.add('hidden');
+        fontGroup.classList.add('hidden');
       }
     }
 
     function deleteActiveSticker() {
       if (!selectedSticker) return;
+      
+      // If we are currently editing the deleted sticker, exit edit mode first
+      if (isEditingMode) {
+        finishStickerEditing();
+      }
+      
       const list = cuts[activeIndex].stickers;
       const index = list.indexOf(selectedSticker);
       if (index > -1) {
@@ -1230,12 +1387,20 @@
       }
 
       if (found) {
+        // If clicking a different sticker while editing, finish editing first
+        if (isEditingMode && selectedSticker !== found) {
+          finishStickerEditing();
+        }
         selectedSticker = found;
         isDragging = true;
         startDragX = relX - found.relX;
         startDragY = relY - found.relY;
         switchTab('sticker');
       } else {
+        // Clicking empty canvas area
+        if (isEditingMode) {
+          finishStickerEditing();
+        }
         selectedSticker = null;
       }
       
@@ -1256,6 +1421,7 @@
       applyAllEffects();
     }
 
+    // Mouse release event handler
     function handleCanvasMouseUp() {
       isDragging = false;
     }
@@ -1268,6 +1434,7 @@
       }
     }
 
+    // Drag-move touch support
     function handleCanvasTouchMove(e) {
       if (e.touches.length > 0) {
         e.preventDefault();
@@ -1275,11 +1442,12 @@
       }
     }
 
+    // Touch release support
     function handleCanvasTouchEnd() {
       handleCanvasMouseUp();
     }
 
-    // Double click sticker deletion
+    // Double click sticker editing
     function handleCanvasDblClick(e) {
       const coords = getCanvasCoords(e);
       const relX = coords.x / canvas.width;
@@ -1291,12 +1459,8 @@
         const dist = Math.sqrt((relX - st.relX)**2 + (relY - st.relY)**2);
         
         if (dist < st.relSize) {
-          if (selectedSticker === list[i]) {
-            selectedSticker = null;
-          }
-          list.splice(i, 1);
-          applyAllEffects();
-          syncSelectedStickerControls();
+          // Enter text edit mode for this sticker
+          enterStickerEditMode(list[i]);
           break;
         }
       }
@@ -1304,6 +1468,15 @@
 
     // High resolution A4 compiler & downloader / viewer
     function renderA4Page(actionType = 'download') {
+      // Temporarily exit edit mode and clear selection to render clean output
+      const previousSelected = selectedSticker;
+      const previousEditingState = isEditingMode;
+      if (isEditingMode) {
+        finishStickerEditing();
+      }
+      selectedSticker = null;
+      applyAllEffects();
+
       // Create high-res A4 scale canvas (W: 1414, H: 2000 -> 1:1.414 ratio)
       const exportCanvas = document.createElement('canvas');
       exportCanvas.width = 1414;
@@ -1402,6 +1575,14 @@
       eCtx.textBaseline = 'top';
       eCtx.font = "bold 22px 'Noto Sans KR'";
       eCtx.fillText('KSMS COMICS', 1414 - 100, 1883);
+
+      // Restore active select states post-rendering
+      selectedSticker = previousSelected;
+      if (previousSelected && previousEditingState) {
+        enterStickerEditMode(previousSelected);
+      } else {
+        applyAllEffects();
+      }
 
       // 7. Route action types
       if (actionType === 'download') {
