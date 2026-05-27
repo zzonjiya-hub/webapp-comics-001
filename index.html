@@ -7,7 +7,7 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Fonts (East Sea Dokdo & Noto Sans KR) -->
-  <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Sans+KR:wght=300;400;700;900&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -1319,26 +1319,27 @@
       eCtx.lineWidth = 4;
       eCtx.strokeRect(20, 20, 1414 - 40, 2000 - 40);
 
-      // 3. Draw Title (Top Centered - Increased 50% from 52px to 78px)
+      // 3. Draw Title (Top Centered - Y: 95, Height: 78px)
       const titleText = document.getElementById('input-manga-title').value.trim() || "6컷 만화 만들기";
       eCtx.fillStyle = '#000000';
       eCtx.textAlign = 'center';
-      eCtx.textBaseline = 'middle';
+      eCtx.textBaseline = 'top';
       eCtx.font = "bold 78px 'Noto Sans KR'";
-      eCtx.fillText(titleText, 1414 / 2, 145);
+      eCtx.fillText(titleText, 1414 / 2, 95);
 
-      // 4. Draw Author Name (Right-aligned below Title - Solid Black)
+      // 4. Draw Author Name (Right-aligned below Title - Solid Black - Y: 248, Height: 24px)
       const authorNameText = "글/그림: " + (document.getElementById('input-manga-author').value.trim() || "조기석");
       eCtx.fillStyle = '#000000';
       eCtx.textAlign = 'right';
+      eCtx.textBaseline = 'top';
       eCtx.font = "bold 24px 'Noto Sans KR'";
-      eCtx.fillText(authorNameText, 1414 - 100, 240);
+      eCtx.fillText(authorNameText, 1414 - 100, 248);
 
       // 5. Grid placement coordinates (3 Rows x 2 Columns)
-      // Y-axis starting position and spacing optimized for print proportions
-      const startY = 330; 
+      // 수학적으로 산출된 균등 여백(S = 75px) 설계 적용
+      const startY = 347; 
       const colGap = 50;
-      const rowGap = 105; 
+      const rowGap = 75; // 만화 컷 사이의 간격을 정확히 75px로 변경
       const marginX = 100;
       
       const cutW = (1414 - 2 * marginX - colGap) / 2; // (1414 - 200 - 50) / 2 = 582 px
@@ -1381,7 +1382,7 @@
 
           eCtx.drawImage(tempCanvas, 0, 0);
         } else {
-          // 변경된 요구사항: 이미지가 등록되지 않은 빈 컷은 완전히 깨끗한 흰색 배경으로 연출합니다.
+          // 이미지가 등록되지 않은 빈 컷은 완전히 깨끗한 흰색 배경으로 연출합니다.
           eCtx.fillStyle = '#ffffff';
           eCtx.fillRect(0, 0, cutW, cutH);
         }
@@ -1395,12 +1396,12 @@
         drawCutBorder(eCtx, x, y, cutW, cutH, state.borderWidth * (cutW / 640), state.borderStyle);
       }
 
-      // 6. Draw 'KSMS COMICS' text at bottom right (Adjusted bottom position)
+      // 6. Draw 'KSMS COMICS' text at bottom right (Perfect equal vertical spacing - Y: 1883, Height: 22px)
       eCtx.fillStyle = '#000000';
       eCtx.textAlign = 'right';
-      eCtx.textBaseline = 'bottom';
+      eCtx.textBaseline = 'top';
       eCtx.font = "bold 22px 'Noto Sans KR'";
-      eCtx.fillText('KSMS COMICS', 1414 - 100, 2000 - 50);
+      eCtx.fillText('KSMS COMICS', 1414 - 100, 1883);
 
       // 7. Route action types
       if (actionType === 'download') {
